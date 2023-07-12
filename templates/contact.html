@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles/contact.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static  'styles/contact_responsive.css' %}">
+{% endblock %}
+{% block content %}
+<div class="super_container">
+    {% include 'nav.html' %}
+    <div class="menu">
+        <div class="menu_content d-flex flex-column align-items-end justify-content-start">
+            <ul class="menu_nav_list text-right">
+                <li><a href="index-2.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="episodes.html">Episodes</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="menu_extra d-flex flex-column align-items-end justify-content-start">
+                <div class="menu_submit"><a href="#">Submit your podcast</a></div>
+                <div class="social">
+                    <ul class="d-flex flex-row align-items-start justify-content-start">
+                        <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                        <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                        <li><a href="#"><i class="fa fa-soundcloud" aria-hidden="true"></i></a></li>
+                        <li><a href="#"><i class="fa fa-vimeo" aria-hidden="true"></i></a></li>
+                        <li><a href="#"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="home">
+        <div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="{% static 'images/index.jpg' %}"
+             data-speed="0.8"></div>
+        <div class="home_container d-flex flex-column align-items-center justify-content-center">
+            <div class="home_content">
+                <div class="home_title"><h1>blog</h1></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+
+                    <div class="intro">
+                        <div class="section_title text-center"><h1>Get in touch</h1></div>
+                        <div class="intro_text text-center">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a bibendum sem. Fusce
+                                dignissim et diam quis pretium.
+                                Etiam efficitur semper accumsan. Sed et dui aliquet, ultrices tellus non, sagittis
+                                magna. Nullam justo quam, vestibulum non magna et, tempus tincidunt est. Ut laoreet
+                                magna ac luctus lacinia. Aliquam eget neque turpis. Phasellus nibh ex, tristique a magna
+                                ac, convallis tincidunt diam. Nulla facilisi. Phasellus porta sapien sit amet tortor
+                                rhoncus mattis.</p>
+                        </div>
+                        <div class="button_fill intro_button text-center ml-auto mr-auto"><a href="#">read more</a>
+                        </div>
+                    </div>
+
+                    <div class="contact_form_container">
+                        <div class="contact_form_title text-center">Send a message</div>
+                        <div class="row">
+                            <div class="col-lg-8 offset-lg-2">
+                                <form action="" method="post" id="contact_form" class="contact_form">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-md-12 contact_col ">
+                                            {% if not user.is_authenticated %}
+                                            {{ form.name }}
+                                            {{ else }}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div>{{ form.message }}</div>
+                                    <button type="submit" value="Send Message" class="contact_button button_fill ml-auto mr-auto">send</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="google_map_container">
+                        <div class="map">
+                            <div id="google_map" class="google_map">
+                                <div class="map_container">
+                                    <div id="map">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="newsletter">
+        <div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="{% static 'images/image_2.jpg' %}"
+             data-speed="0.8"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="section_title light text-center"><h1>Join my Newsletter</h1></div>
+                    <div class="newsletter_text text-center">
+                        <p>Stay on track with the latest information about our podcasts, guests, special guest and
+                            giveaways.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row newsletter_row">
+                <div class="col-lg-10 offset-lg-1">
+                    <div class="newsletter_form_container">
+                        <form action="#" method="post" id="subscribe_form" class="contact_form" class="newsletter_form d-flex flex-md-row flex-column align-items-md-start align-items-center justify-content-md-between justify-content-start"
+                              id="newsletter_form">
+                            {% csrf_token %}
+                            <div class="col-md-8">
+                                {{ forma.email }}
+                            </div>
+                            <button type="submit" value="Send Message" class="contact_button button_fill ml-auto mr-auto">send</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'footer.html'%}
+</div>
+{% endblock %}
+{% block js %}
+<script src="{% static 'js/contact.js' %}"></script>
+{% endblock %}

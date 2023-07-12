@@ -1,0 +1,247 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles/episode.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/episode_responsive.css' %}">
+{% endblock %}
+{% block content %}
+<div class="super_container">
+
+    {% include 'nav.html' %}
+
+    <div class="home">
+        <div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="{{ object.image.url }}"
+             data-speed="0.8"></div>
+        <div class="home_container">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <div class="home_content text-center">
+                            <div class="home_title"><h1>{{ object.title }}</h1></div>
+                            <div class="home_subtitle text-center">{{ object.created_date|date:"F d, Y" }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="home_player_container">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-9 offset-lg-3">
+
+                        <div class="player d-flex flex-row align-items-start justify-content-start s1">
+                            <div class="player_content">
+
+                                <div class="single_player_container">
+                                    <div class="single_player d-flex flex-row align-items-center justify-content-start">
+                                        <div id="jplayer_1" class="jp-jplayer"></div>
+                                        <div id="jp_container_1" class="jp-audio" role="application"
+                                             aria-label="media player">
+                                            <div class="jp-type-single">
+                                                <div class="player_controls">
+                                                    <div class="jp-gui jp-interface d-flex flex-row align-items-center justify-content-start">
+                                                        <div class="jp-controls-holder time_controls d-flex flex-row align-items-center justify-content-between">
+                                                            <div>
+                                                                <div class="jp-controls-holder play_button ml-auto">
+                                                                    <button class="jp-play" tabindex="0"></button>
+                                                                </div>
+                                                            </div>
+                                                            <div>
+                                                                <div class="jp-progress">
+                                                                    <div class="jp-seek-bar">
+                                                                        <div class="jp-play-bar"></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="jp-volume-controls d-flex flex-row align-items-center justify-content-between ml-auto">
+                                                            <div class="d-flex flex-row align-items-center justify-content-start">
+                                                                <button class="jp-mute" tabindex="0"></button>
+                                                            </div>
+                                                            <div class="d-flex flex-row align-items-center justify-content-start">
+                                                                <div class="jp-volume-bar">
+                                                                    <div class="jp-volume-bar-value"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="jp-no-solution">
+                                                    <span>Update Required</span>
+                                                    To play the media you will need to either update your browser to a
+                                                    recent version or update your <a
+                                                        href="https://get.adobe.com/flashplayer/" target="_blank">Flash
+                                                    plugin</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="show_info d-flex flex-row align-items-start justify-content-start">
+                                    <div class="show_fav d-flex flex-row align-items-center justify-content-start">
+                                        <div data-music_id="{{ object.id }}" id="lbtn_{{ object.id }}"
+                                             class="do_like {% if object.id in my_liked_musics_list %}active liked {% endif %} show_fav_icon show_info_icon">
+                                            <img class="svg" src="{% static 'images/heart.svg' %}" alt="">
+                                        </div>
+                                        <div class="show_fav_count" id="lcount_{{object.id}}">
+                                            {{object.music_like.count}}
+                                        </div>
+                                    </div>
+                                    <div class="show_comments">
+                                        <a href="#">
+                                            <div class="d-flex flex-row align-items-center justify-content-start">
+                                                <div class="show_comments_icon show_info_icon"><img class="svg"
+                                                                                                    src="{% static 'images/speech-bubble.svg' %}"
+                                                                                                    alt=""></div>
+                                                <div class="show_comments_count">{{ object.comment_set.count }}
+                                                    comment
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="episode_container">
+
+        <div class="episode_image_container">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3">
+
+                        <div class="episode_image"><img src="{{ object.author.avatar.url }}" alt=""></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+
+                <div class="col-lg-3 order-lg-1 order-2 sidebar_col">
+                    <div class="sidebar">
+
+                        <div class="sidebar_list">
+                            <div class="sidebar_title">Categoriessss</div>
+                            <ul>
+                                {% for category in categories.all %}
+                                <li><a href="{% url 'podcast:detail' object.id %}?cat={{ category.title }}">
+                                    {{ category.title }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                        <div class="sidebar_tags">
+                            <div class="sidebar_title">Tags</div>
+                            <div class="tags">
+                                <ul class="d-flex flex-row align-items-start justify-content-start flex-wrap">
+                                    {% for tag in tags %}
+                                    <li><a href="{% url 'podcast:detail' object.id %}?tag={{ tag.title }}">
+                                        {{ tag.title }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="sidebar_archive">
+                            <div class="sidebar_title">Archive</div>
+                            <div class="dropdown">
+                                <ul>
+                                    <li class="dropdown_selected d-flex flex-row align-items-center justify-content-start">
+                                        <span>September 2018</span><i class="fa fa-chevron-down ml-auto"
+                                                                      aria-hidden="true"></i>
+                                        <ul>
+                                            <li><a href="#">August 2018</a></li>
+                                            <li><a href="#">July 2018</a></li>
+                                            <li><a href="#">June 2018</a></li>
+                                            <li><a href="#">May 2018</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-9 episode_col order-lg-2 order-1">
+                    <div class="intro">
+                        <div class="section_title">{{ object.title }}</div>
+                        <div class="intro_text">
+                            <p>{{ object.description }}</p>
+                        </div>
+                    </div>
+                    <div class="guests">
+                        <div class="section_title">Guests</div>
+                        <div class="guests_container d-flex flex-md-row flex-column align-items-md-start align-items-center justify-content-start">
+
+                            <div class="guest_container">
+                                <div class="guest">
+                                    <div class="guest_image"><img src="{% static 'images/guest_1.jpg' %}"
+                                                                  alt='#'></div>
+                                    <div class="guest_content text-center">
+                                        <div class="guest_name"><a href="#">AAbdumajidov</a></div>
+                                        <div class="guest_title">Developer</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="comments">
+                        <div class="section_title">{{ object.comment_set.count }} Comments</div>
+                        <div class="comments_container">
+                            <ul>
+                                {% for comment in object.comment_set.all %}
+                                <li class="d-flex flex-row">
+                                    <div class="vcard bio">
+                                        {% if comment.author.avatar %}
+                                        <img src="{{ comment.author.avatar.url }}" style="width: 50px"
+                                             alt="Image placeholder">
+                                        {% else %}
+                                        <img src="{% static 'images/user.png' %}" style="width: 50px"
+                                             alt="Image placeholder">
+                                        {% endif %}
+                                    </div>
+                                    <div class="comment_content">
+                                        <div class="user_name"><a href="#">{{ comment.author }}</a></div>
+                                        <div class="comment_text">
+                                            <p>{{ comment.description }}</p>
+                                        </div>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="comment_form_container">
+                        <div class="section_title">Leave a comment</div>
+                        <form method="post" class="comment_form">
+                            {% csrf_token %}
+                            <div>
+                                <label>Message</label>
+                                {{ form.description }}
+                            </div>
+
+                            <div class="form-group">
+                                <input type="submit" value="Post Comment" class="btn btn-primary">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'footer.html' %}
+</div>
+
+{% endblock %}
+{% block js %}
+<script src="{% static 'js/episode.js' %}"></script>
+{% endblock %}
